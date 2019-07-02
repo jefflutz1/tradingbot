@@ -96,8 +96,13 @@ def readFile(filename):
     return pickle.load(pickle_off)
 
 r = login()
-simulationList = []
+account = Account(3,0.001, 0.003)
+while(True):
+    account.threshholdTest(r.quotes()['ask_price'])
+    time.sleep(15)
 
+
+'''
 for i in range(1,11):
     for j in range(1,11):
         for k in range(1,11):
@@ -112,3 +117,4 @@ while(True):
         count += 1
         time.sleep(15)
 
+'''
