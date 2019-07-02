@@ -91,10 +91,12 @@ def readFile(filename):
 botData = readFile('simuldata.txt')
 
 bob = []
+count = 0
 for i in botData:
-    bob.append(i.gain)
+    if i.sellThreshhold == 0.005:
+        count += 1
 
-
+print(count)
 
 
 

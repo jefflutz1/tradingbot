@@ -19,7 +19,7 @@ class Account:
     r = ''
     buyFlag = True
     numberOfTrades = 0
-    gain = 0
+    gain = 1
     lastBuy = 0
 
     def __init__(self, intervalAverage,buyThreshhold,sellThreshhold):
@@ -64,27 +64,27 @@ class Account:
         
         price = float(self.priceHistory[len(self.priceHistory) - 1])
         percentChange = price / Account.priceChange(self)
-        BTCChange = price / self.firstBTCPrice
+        #BTCChange = price / self.firstBTCPrice
         
         if len(self.priceHistory) > self.intervalAverage and percentChange > (1 + self.buyThreshhold) and self.buyFlag:
             self.lastBuy = price
             self.buyFlag = False
             self.numberOfTrades += 1
-            Account.printOutput(self,'buy',percentChange, price, BTCChange, self.gain)
+            #Account.printOutput(self,'buy',percentChange, price, BTCChange, self.gain)
         
         elif len(self.priceHistory) > self.intervalAverage and percentChange < (1 - self.sellThreshhold) and not self.buyFlag:
             self.currentAmount *= price / self.lastBuy
             self.gain = self.currentAmount / self.startAmount
             self.buyFlag = True
             self.numberOfTrades += 1
-            Account.printOutput(self,'sell',percentChange, price, BTCChange, self.gain)
+            #Account.printOutput(self,'sell',percentChange, price, BTCChange, self.gain)
         
         elif not self.buyFlag:
-            Account.printOutput(self,'holding',percentChange, price, BTCChange, self.gain)
+            #Account.printOutput(self,'holding',percentChange, price, BTCChange, self.gain)
             pass
             
         else:
-           Account.printOutput(self,'not holding',percentChange, price, BTCChange, self.gain)
+           #Account.printOutput(self,'not holding',percentChange, price, BTCChange, self.gain)
            pass
 
 def writeToFile(data):
@@ -96,25 +96,24 @@ def readFile(filename):
     return pickle.load(pickle_off)
 
 r = login()
-account = Account(3,0.001, 0.003)
-while(True):
-    account.threshholdTest(r.quotes()['ask_price'])
-    time.sleep(15)
 
-
-'''
+try:
+    simulationList = readFile('simuldata.txt')
+except:
+    simulationList = []
+    
 for i in range(1,11):
-    for j in range(1,11):
-        for k in range(1,11):
-            simulationList.append(Account(i,j/1000,k/1000))
+    for j in range(1,111):
+        for k in range(1,111):
+            simulationList.append(Account(i,j/10000,k/10000))
+            
 count = 0
 while(True):
     for i in range(len(simulationList)):
         tempPrice = r.quotes()['ask_price']
         simulationList[i].threshholdTest(tempPrice)
         writeToFile(simulationList)
-        print(str(count))
+        print(str(count) + " " + str(tempPrice))
         count += 1
         time.sleep(15)
 
-'''
