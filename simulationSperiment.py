@@ -64,27 +64,27 @@ class Account:
         
         price = float(self.priceHistory[len(self.priceHistory) - 1])
         percentChange = price / Account.priceChange(self)
-        #BTCChange = price / self.firstBTCPrice
+        BTCChange = price / self.firstBTCPrice
         
         if len(self.priceHistory) > self.intervalAverage and percentChange > (1 + self.buyThreshhold) and self.buyFlag:
             self.lastBuy = price
             self.buyFlag = False
             self.numberOfTrades += 1
-            #Account.printOutput(self,'buy',percentChange, price, BTCChange, self.gain)
+            Account.printOutput(self,'buy',percentChange, price, BTCChange, self.gain)
         
         elif len(self.priceHistory) > self.intervalAverage and percentChange < (1 - self.sellThreshhold) and not self.buyFlag:
             self.currentAmount *= price / self.lastBuy
             self.gain = self.currentAmount / self.startAmount
             self.buyFlag = True
             self.numberOfTrades += 1
-            #Account.printOutput(self,'sell',percentChange, price, BTCChange, self.gain)
+            Account.printOutput(self,'sell',percentChange, price, BTCChange, self.gain)
         
         elif not self.buyFlag:
-            #Account.printOutput(self,'holding',percentChange, price, BTCChange, self.gain)
+            Account.printOutput(self,'holding',percentChange, price, BTCChange, self.gain)
             pass
             
         else:
-           #Account.printOutput(self,'not holding',percentChange, price, BTCChange, self.gain)
+           Account.printOutput(self,'not holding',percentChange, price, BTCChange, self.gain)
            pass
 
 def writeToFile(data):
