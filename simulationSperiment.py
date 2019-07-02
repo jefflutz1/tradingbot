@@ -102,18 +102,18 @@ try:
 except:
     simulationList = []
     
-for i in range(1,11):
-    for j in range(1,111):
-        for k in range(1,111):
-            simulationList.append(Account(i,j/10000,k/10000))
-            
+    for i in range(1,11):
+        for j in range(1,111):
+            for k in range(1,111):
+                simulationList.append(Account(i,j/10000,k/10000))
+          
 count = 0
 while(True):
     for i in range(len(simulationList)):
         tempPrice = r.quotes()['ask_price']
         simulationList[i].threshholdTest(tempPrice)
         writeToFile(simulationList)
-        print(str(count) + " " + str(tempPrice))
+        print(str(count) + " " + str(tempPrice) + " gain " + str(simulationList[0].gain))
         count += 1
         time.sleep(15)
 
